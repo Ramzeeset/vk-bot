@@ -9,11 +9,12 @@
     "autoload": {
         "psr-4": {
             "CallBack\\" : "www/callback-api",
-            "Log\\" : "www/logger"
+            "Log\\" : "www/logger",
+            "Bot\\" : "www/bot"
         }
     },
     "require": {
-        "vkcom/vk-php-sdk": "^5.101",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-curl": "*"
     }
 }

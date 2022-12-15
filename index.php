@@ -4,17 +4,19 @@ require 'vendor/autoload.php';
 
 $event = CallBack\CallBackApi::getEvent();
 
-Log\Logger::dumpLog($event);
-
 switch ($event["type"]) {
     case CallBack\CALLBACK_API_EVENT_CONFIRMATION:
         CallBack\CallBackApi::handleConfirmationEvent();
         break;
-    case CallBack\CALLBACK_API_EVENT_MESSAGE_NEW:
+    case CallBack\CALLBACK_API_EVENT_MESSAGE_EVENT:
+        CallBack\CallBackApi::handleMessageEvent($event['object']);
         break;
-    default;
+    case CallBack\CALLBACK_API_EVENT_MESSAGE_NEW:
+        CallBack\CallBackApi::handleMessageNew($event['object']);
+        break;
+    default:
+        CallBack\CallBackApi::sendResponse('Unsupported event '.$event['type']);
+        break;
 }
-
-echo "Please call letter";
 
 
