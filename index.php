@@ -1,8 +1,11 @@
 <?php
 
+use Log\Logger;
+
 require 'vendor/autoload.php';
 
 $event = CallBack\CallBackApi::getEvent();
+//Logger::dumpLog($event);
 
 switch ($event["type"]) {
     case CallBack\CALLBACK_API_EVENT_CONFIRMATION:
@@ -15,7 +18,7 @@ switch ($event["type"]) {
         CallBack\CallBackApi::handleMessageNew($event['object']);
         break;
     default:
-        CallBack\CallBackApi::sendResponse('Unsupported event '.$event['type']);
+        CallBack\CallBackApi::okResponse();
         break;
 }
 

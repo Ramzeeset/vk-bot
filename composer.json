@@ -10,6 +10,7 @@
         "psr-4": {
             "CallBack\\" : "www/callback-api",
             "Log\\" : "www/logger",
+            "VKApi\\" : "www/vk-api",
             "Bot\\" : "www/bot"
         }
     },

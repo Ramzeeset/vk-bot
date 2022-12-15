@@ -4,9 +4,11 @@ namespace CallBack;
 
 use Bot\Bot;
 use Log\Logger;
+use Log\LogMessage;
 
 const CALLBACK_API_EVENT_CONFIRMATION = 'confirmation';
 const CALLBACK_API_EVENT_MESSAGE_EVENT = 'message_event';
+const CALLBACK_API_EVENT_MESSAGE_REPLY = 'message_reply';
 const CALLBACK_API_EVENT_MESSAGE_NEW = 'message_new';
 
 class CallBackApi {
@@ -15,7 +17,7 @@ class CallBackApi {
     }
 
     static function sendResponse($data) {
-        $message = new \Log\LogMessage();
+        $message = new LogMessage();
         $message->appendLog('send response to user : ');
         $message->appendLog($data);
         $message->dumpLog();
@@ -24,7 +26,7 @@ class CallBackApi {
     }
 
     static function okResponse() {
-        echo "OK";
+        echo 'ok';
         exit();
     }
 
@@ -44,6 +46,7 @@ class CallBackApi {
         Logger::dumpLog("call handleMessageNew");
         $user_id = $data['message']['peer_id'];
         Bot::sendMessage($user_id, $data);
+        Logger::dumpLog("call okResponse");
         self::okResponse();
     }
 }
