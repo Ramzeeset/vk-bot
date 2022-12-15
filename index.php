@@ -5,7 +5,7 @@ use Log\Logger;
 require 'vendor/autoload.php';
 
 $event = CallBack\CallBackApi::getEvent();
-//Logger::dumpLog($event);
+Logger::dumpLog($event);
 
 switch ($event["type"]) {
     case CallBack\CALLBACK_API_EVENT_CONFIRMATION:
