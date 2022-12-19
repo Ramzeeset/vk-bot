@@ -26,13 +26,6 @@ class Bot {
             $state = "main";
         }
         switch ($state) {
-// todo implement this
-//            case "hello":
-//                self::processHelloState($user_id, $data);
-//                break;
-//            case "connect":
-//                self::processConnectState($user_id, $data);
-//                break;
             case "main":
                 self::processMainState($user_id, $data, $db);
                 break;
@@ -44,30 +37,6 @@ class Bot {
                 break;
         }
     }
-
-    static function processHelloState($user_id, $data) {
-        switch ($data['message']['text']) {
-            case "Начать":
-                $message = "Привет";
-                VKApi::messageSend($user_id, $message, HELLO_KEYBOARD);
-                break;
-            case "Создать комнату":
-                $message = "Придумай пароль для комнаты";
-                /* state -> select*/
-                VKApi::messageSend($user_id, $message, SELECT_KEYBOARD);
-                break;
-            case "Подключиться к комнате":
-                $message = "Введи пароль для комнаты";
-                /* state -> select*/
-                VKApi::messageSend($user_id, $message, SELECT_KEYBOARD);
-                break;
-            default:
-                $message = "";
-                VKApi::messageSend($user_id, $message, HELLO_KEYBOARD);
-        }
-    }
-
-    static function processConnectState($user_id, $data) {}
 
     static function processMainState($user_id, $data, $db) {
         switch ($data['message']['text']) {
@@ -86,7 +55,8 @@ class Bot {
                 VKApi::messageSend($user_id, $message, SELECT_KEYBOARD);
                 break;
             case "Убрать":
-                $message = "Выбери, что купил";
+                $message = "Выбери, что купил из списка\n";
+                $message.=implode("\n", self::getProductsOfRoom(1, $db));
                 self::updateUserState($user_id, self::$SELECT_REMOVED_STATE, $db);
                 VKApi::messageSend($user_id, $message, self::getProductsKeyboard(1, $db));
                 break;
@@ -188,16 +158,18 @@ class Bot {
     static function getProductsKeyboard($room_id, $db) {
         $list = self::getProductsOfRoom($room_id, $db);
         $buttons = [];
-        for ($i = 0; $i < count($list); $i++) {
-            $button = [
-                ["action" =>
-                    ["type" => "text",
-                        "label" => $list[$i],
-                        "payload" => ""],
-                    "color" => "primary"
-                ]
-            ];
-            $buttons[] = $button;
+        if (count($list) <= 9) {
+            for ($i = 0; $i < count($list); $i++) {
+                $button = [
+                    ["action" =>
+                        ["type" => "text",
+                            "label" => $list[$i],
+                            "payload" => ""],
+                        "color" => "primary"
+                    ]
+                ];
+                $buttons[] = $button;
+            }
         }
         $buttons[] = [
             ["action" =>
