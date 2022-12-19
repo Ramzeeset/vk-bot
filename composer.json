@@ -1,0 +1,23 @@
+{
+    "name": "vadim/vk-bot",
+    "authors": [
+        {
+            "name": "Vadim Sadokhov",
+            "email": "v.sadokhov@vk.team"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CallBack\\" : "www/callback-api",
+            "Log\\" : "www/logger",
+            "VKApi\\" : "www/vk-api",
+            "Bot\\" : "www/bot"
+        }
+    },
+    "require": {
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-pdo": "*",
+        "ext-mysqli": "*"
+    }
+}
